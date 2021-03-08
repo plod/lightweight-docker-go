@@ -7,7 +7,7 @@ jobs:
     name: Push Docker image to GitHub Packages
     runs-on: ubuntu-latest
     steps:
-      - name: prep
+      - id: prep
         if: "startsWith(github.ref, 'refs/tags/v')"
         run: |
           echo ::set-output name=tags::ghcr.io/plod/lightweight-docker-go:${GITHUB_REF#refs/tags/v}

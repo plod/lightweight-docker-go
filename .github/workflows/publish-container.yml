@@ -13,7 +13,7 @@ jobs:
           # list of Docker images to use as base name for tags
           images: |
             ${{ github.repository }}
-            # ghcr.io/${{ github.repository }}
+          # ghcr.io/${{ github.repository }}
           # add git short SHA as Docker tag
           tag-sha: true
       - name: Checkout Code

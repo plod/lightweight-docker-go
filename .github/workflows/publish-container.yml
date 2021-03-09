@@ -9,7 +9,6 @@ jobs:
       - id: prep
         if: "startsWith(github.ref, 'refs/tags/v')"
         run: |
-<<<<<<< HEAD
           echo ::set-output name=tags::${GITHUB_REF#refs/tags/v}
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -35,23 +34,3 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:latest
             ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:${{ steps.prep.outputs.tags }}
-=======
-          echo ::set-output name=tags::ghcr.io/plod/lightweight-docker-go:${GITHUB_REF#refs/tags/v}
-      - name: Check out the repo
-        uses: actions/checkout@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1 
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ${{ steps.prep.outputs.tags }}
->>>>>>> 7b493da8ecd076d5ce512b3f17a8a7aad9bad6ab

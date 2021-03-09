@@ -6,10 +6,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - id: prep
-        if: "startsWith(github.ref, 'refs/tags/v')"
-        run: |
-          echo ::set-output name=tags::${GITHUB_REF#refs/tags/v}
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            ghcr.io/{{ github.repository }}
+          # add git short SHA as Docker tag
+          tag-sha: true
       - name: Checkout Code
         uses: actions/checkout@v2
 
@@ -31,6 +36,5 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true # Will only build if this is not here
-          tags: |
-            ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${{ steps.prep.outputs.tags }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
